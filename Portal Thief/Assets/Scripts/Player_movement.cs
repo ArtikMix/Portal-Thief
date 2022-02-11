@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class Player_movement : MonoBehaviour
 {
-    private Transform player;
+    private CharacterController player;
     [HideInInspector] public float player_speed = 5f;
 
     private void Start()
     {
-        player = GetComponent<Transform>();
+        player = GetComponent<CharacterController>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            player.Translate(0f, 0f, player_speed * Time.deltaTime);
-        }
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        player.Move(move * player_speed * Time.deltaTime);
     }
 }
