@@ -36,9 +36,11 @@ public class Camera_controller : MonoBehaviour
         }
         if (mouse_pos.y >= Screen.height)
         {
+            cam_pos.transform.Translate(0f, 15f*Time.deltaTime, 15f*Time.deltaTime);
         }
         if (mouse_pos.y <= 0)
         {
+            cam_pos.transform.Translate(0f, -15f * Time.deltaTime, -15f * Time.deltaTime);
         }
     }
 }

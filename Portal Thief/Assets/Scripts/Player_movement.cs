@@ -6,7 +6,10 @@ public class Player_movement : MonoBehaviour
 {
     private CharacterController player_controller;
     private Transform player_transform;
-    [HideInInspector] public float player_speed = 5f;
+    [HideInInspector] public float player_speed = 25f;
+    [HideInInspector] public float rotate_speed = 45f;
+    [SerializeField] private Animator animator;
+    [SerializeField] private AnimationClip[] animations;
 
     private void Start()
     {
@@ -16,28 +19,62 @@ public class Player_movement : MonoBehaviour
 
     private void Update()
     {
+        Move();
+        RotateLogic();
+    }
+
+    private void Move()
+    {
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
         player_controller.Move(move * player_speed * Time.deltaTime);
-        RotateLogic();
     }
 
     private void RotateLogic()
     {
-        if (Input.GetAxis("Horizontal") > 0f)
+        Vector3 direction = new Vector3();
+        direction.x = Input.GetAxis("Horizontal");
+        direction.y = 0f;
+        direction.z = Input.GetAxis("Vertical");
+        Vector3 targetForward = Vector3.RotateTowards(player_transform.forward, direction.normalized, rotate_speed * Time.deltaTime, 0.1f);
+        Quaternion rot = Quaternion.LookRotation(targetForward);
+        player_transform.rotation = rot;
+        AnimationController(direction);
+    }
+
+    private void AnimationController(Vector3 dir)
+    {
+        AnimationDeactivator();
+        if (dir == Vector3.zero)
         {
-            player_transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+            animator.SetBool("idle", true);
         }
-        if (Input.GetAxis("Horizontal") < 0f)
+        if (dir.z > 0)
         {
-            player_transform.rotation = Quaternion.Euler(0f, 270f, 0f);
+            animator.SetBool("forward", true);
         }
-        if (Input.GetAxis("Vertical") > 0f)
+        if (dir.z < 0)
         {
-            player_transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            animator.SetBool("backward", true);
         }
-        if (Input.GetAxis("Vertical") > 0f)
+        if (dir.x > 0)
         {
-            player_transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            animator.SetBool("right", true);
+        }
+        if (dir.x < 0)
+        {
+            animator.SetBool("left", true);
+        }
+        /*if (dir.x>0 && dir.z > 0)
+        {
+            animator.SetBool
+        }*/
+    }
+
+    private void AnimationDeactivator()
+    {
+        foreach(AnimationClip anim in animations)
+        {
+            animator.SetBool(anim.name, false);
         }
     }
 }
