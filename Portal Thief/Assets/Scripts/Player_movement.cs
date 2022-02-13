@@ -38,10 +38,10 @@ public class Player_movement : MonoBehaviour
         Vector3 targetForward = Vector3.RotateTowards(player_transform.forward, direction.normalized, rotate_speed * Time.deltaTime, 0.1f);
         Quaternion rot = Quaternion.LookRotation(targetForward);
         player_transform.rotation = rot;
-        AnimationController(direction);
+        //AnimationController(direction);
     }
 
-    private void AnimationController(Vector3 dir)
+    /*private void AnimationController(Vector3 dir)
     {
         AnimationDeactivator();
         if (dir == Vector3.zero)
@@ -64,11 +64,11 @@ public class Player_movement : MonoBehaviour
         {
             animator.SetBool("left", true);
         }
-        /*if (dir.x>0 && dir.z > 0)
+        if (dir.x>0 && dir.z > 0)
         {
             animator.SetBool
-        }*/
-    }
+        }
+    }*/
 
     private void AnimationDeactivator()
     {
