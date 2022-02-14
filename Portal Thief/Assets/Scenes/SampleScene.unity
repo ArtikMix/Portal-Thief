@@ -808,6 +808,9 @@ MonoBehaviour:
   patrolPoints:
   - {fileID: 10924220}
   - {fileID: 1838277076}
+  lampDistance: 10
+  visionDistance: 15
+  angle: 70
 --- !u!1 &1838277075
 GameObject:
   m_ObjectHideFlags: 0
