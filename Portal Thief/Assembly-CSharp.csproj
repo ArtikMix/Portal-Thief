@@ -53,12 +53,14 @@
     <UnityVersion>2021.2.10f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Assets_packs\QuickOutline\Scripts\Outline.cs" />
     <Compile Include="Assets\Scripts\Enemy_controller.cs" />
     <Compile Include="Assets\Scripts\Camera_controller.cs" />
     <Compile Include="Assets\Assets_packs\Cool Visual Effects - Part 1\Scripts\ConstantRotation.cs" />
     <Compile Include="Assets\Scripts\Player_movement.cs" />
     <Compile Include="Assets\Assets_packs\Cool Visual Effects - Part 1\Scripts\EffectManager.cs" />
-    <Compile Include="Assets\Assets_packs\QuickOutline\Scripts\Outline.cs" />
+    <Compile Include="Assets\Scripts\Plane_logic.cs" />
+    <Compile Include="Assets\Scripts\PlanesContainer_logic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Assets_packs\QuickOutline\Resources\Shaders\OutlineMask.shader" />
