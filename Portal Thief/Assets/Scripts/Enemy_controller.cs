@@ -11,12 +11,15 @@ public class Enemy_controller : MonoBehaviour
     private int patrolPointNumber = -1;
     private bool onceStartCoroutine = false;
     //поиск
-    [SerializeField] private float lampDistance = 10f;
-    [SerializeField] private float visionDistance = 15f;
-    [SerializeField] private float angle = 70f;
-    private Vector3 offset;
+    [SerializeField] private float lampDistance;
+    [SerializeField] private float visionDistance;
+    [SerializeField] private float angle;
+    [SerializeField] private Vector3 offset;
     private Transform target;
     private int raysCount = 100;
+    private bool seek = false;
+    [SerializeField] private float seekingTime;
+    private float timeOfSeek = 0f;
 
     private void Start()
     {
@@ -28,7 +31,16 @@ public class Enemy_controller : MonoBehaviour
     private void Update()
     {
         CheckPatrolPosition();
-        Search();
+        EnemyVision(Search());
+        if (seek && Vector3.Distance(transform.position, target.position) <= visionDistance && Vector3.Distance(transform.position, target.position) > lampDistance)
+        {
+            timeOfSeek += Time.deltaTime;
+            Debug.Log("Time of seek: " + timeOfSeek);
+            if (timeOfSeek >= 3.5f)
+            {
+                Loose();
+            }
+        }
     }
     #region Patrol
     private void Patrol()
@@ -42,7 +54,11 @@ public class Enemy_controller : MonoBehaviour
             patrolPointNumber = 0;
         }
         onceStartCoroutine = true;
-        agent.SetDestination(patrolPoints[patrolPointNumber].position);
+        if (!seek)
+        {
+            agent.SetDestination(patrolPoints[patrolPointNumber].position);
+        }
+        
     }
 
     private void CheckPatrolPosition()
@@ -65,10 +81,7 @@ public class Enemy_controller : MonoBehaviour
         Patrol();
     }
     #endregion
-    private void EnemyVision()
-    {
 
-    }
     #region Search
     private int GetRaycast(Vector3 dir)
     {
@@ -81,14 +94,14 @@ public class Enemy_controller : MonoBehaviour
             if (hit.transform == target && Vector3.Distance(transform.position, target.position)<=lampDistance)
             {
                 result = 1;
-                Debug.Log("Enemy " + transform.name + " has find PLAYER at 10 (lampDistance)");
+                Debug.Log("Enemy " + transform.name + " has find PLAYER at " + lampDistance + "(lampDistance)");
                 Debug.DrawLine(transform.position, hit.point, Color.red);
                 return result;
             }
             if (hit.transform == target && Vector3.Distance(transform.position, target.position)<=visionDistance && Vector3.Distance(transform.position, target.position) > lampDistance)
             {
                 result = 2;
-                Debug.Log("Enemy " + transform.name + " has find PLAYER at 15 (visionDistance)");
+                Debug.Log("Enemy " + transform.name + " has find PLAYER at "+ visionDistance + "(visionDistance)");
                 Debug.DrawLine(transform.position, hit.point, Color.yellow);
                 return result;
             }
@@ -110,12 +123,39 @@ public class Enemy_controller : MonoBehaviour
 
             switch (GetRaycast(dir))
             {
-                case 0: continue;
                 case 1: return 1;
                 case 2: return 2;
             }
         }
         return 0;
     }
+
+    private void EnemyVision(int version)
+    {
+        switch (version)
+        {
+            case 0: Debug.Log("Nothing has happend!");
+                break;
+            case 1:Loose();
+                break;
+            case 2:
+                Pursuit();
+                break;
+        }
+    }
+
+    private void Pursuit()
+    {
+        seek = true;
+        agent.SetDestination(target.position);
+    }
+
+    private void Loose()
+    {
+        Debug.Log("YOU LOOSE!");
+        agent.SetDestination(target.position);
+    }
     #endregion
+
+
 }
