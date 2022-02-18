@@ -6,16 +6,17 @@ using System;
 public class PlanesContainer_logic : MonoBehaviour
 {
     private GameObject Ground;
-    private GameObject[] grounds;
-    private GameObject standartPlane;
+    private GameObject[] grounds = new GameObject[10];//
+    [SerializeField] private GameObject standartPlane;
 
     private void Start()
     {
         Ground = GameObject.FindGameObjectWithTag("Ground");
         int i = 0;
-        foreach(GameObject ground in Ground.transform)
+        foreach(Transform ground in Ground.transform)
         {
-            grounds[i] = ground;
+            Debug.Log("+");
+            grounds[i] = ground.gameObject;
             CreatePlanes(grounds[i]);
             i++;
         }
@@ -23,14 +24,19 @@ public class PlanesContainer_logic : MonoBehaviour
 
     private void CreatePlanes(GameObject ground)
     {
-        int x = Convert.ToInt32(ground.transform.localScale.x);
-        int y = Convert.ToInt32(ground.transform.localScale.y);
-        GameObject[,] planes = new GameObject[x,y];
-        for (int i = 0; i < x; i++)
+        int scaleX = Convert.ToInt32(ground.transform.localScale.x);
+        int scaleY = Convert.ToInt32(ground.transform.localScale.y);
+        Vector3 pos = new Vector3(ground.transform.position.x, ground.transform.position.y + 0.1f, ground.transform.position.z);
+        GameObject[,] planes = new GameObject[scaleX,scaleY];
+        for (int i = 0; i < scaleX; i++)
         {
-            for (int j = 0; j < y; j++)
+            Debug.Log("-");
+            for (int j = 0; j < scaleY; j++)
             {
-                
+                Debug.Log("*");
+                planes[i,j] = Instantiate(standartPlane, pos, Quaternion.identity);
+                planes[i, j].transform.SetParent(ground.transform);
+                planes[i, j].transform.localPosition = new Vector3(scaleX, planes[i, j].transform.localPosition.y, scaleY);
             }
         }
     }
