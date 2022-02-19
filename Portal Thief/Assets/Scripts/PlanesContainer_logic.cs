@@ -24,10 +24,12 @@ public class PlanesContainer_logic : MonoBehaviour
 
     private void CreatePlanes(GameObject ground)
     {
-        int scaleX = Convert.ToInt32(ground.transform.localScale.x);
-        int scaleY = Convert.ToInt32(ground.transform.localScale.y);
+        float scaleX = ground.transform.localScale.x;
+        float scaleY = ground.transform.localScale.y;
         Vector3 pos = new Vector3(ground.transform.position.x, ground.transform.position.y + 0.1f, ground.transform.position.z);
-        GameObject[,] planes = new GameObject[scaleX,scaleY];
+        GameObject[,] planes = new GameObject[Convert.ToInt32(scaleX), Convert.ToInt32(scaleY)];
+        float stepX = -0.5f;
+        float stepY = -0.5f;
         for (int i = 0; i < scaleX; i++)
         {
             Debug.Log("-");
@@ -36,8 +38,10 @@ public class PlanesContainer_logic : MonoBehaviour
                 Debug.Log("*");
                 planes[i,j] = Instantiate(standartPlane, pos, Quaternion.identity);
                 planes[i, j].transform.SetParent(ground.transform);
-                planes[i, j].transform.localPosition = new Vector3(scaleX, planes[i, j].transform.localPosition.y, scaleY);
+                planes[i, j].transform.position = new Vector3(stepX, planes[i, j].transform.position.y, stepY);
+                stepY = stepY + 1 / scaleY;
             }
+            stepX = stepX + 1 / scaleX;
         }
     }
 }
