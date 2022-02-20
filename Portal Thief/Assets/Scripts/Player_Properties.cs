@@ -8,6 +8,7 @@ public class Player_Properties: MonoBehaviour
     private int portal_size;
     private float portal_distance;
     private float stealth_procent;
+    private float force;
 
     private void Start()
     {
@@ -46,6 +47,15 @@ public class Player_Properties: MonoBehaviour
         {
             stealth_procent = 0f;
         }
+
+        if (PlayerPrefs.HasKey("force"))
+        {
+            force = PlayerPrefs.GetFloat("force");
+        }
+        else
+        {
+            force = 5f;
+        }
     }
 
     public float Run_Speed
@@ -70,5 +80,11 @@ public class Player_Properties: MonoBehaviour
     {
         get { return stealth_procent; }
         set { stealth_procent = value; }
+    }
+
+    public float Force
+    {
+        get { return force; }
+        set { force = value; }
     }
 }

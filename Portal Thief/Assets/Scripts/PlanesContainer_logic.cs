@@ -45,10 +45,10 @@ public class PlanesContainer_logic : MonoBehaviour
             {
                 //Debug.Log("j = " + j);
                 planes[i, j] = Instantiate(standartPlane, pos, Quaternion.identity);
-                planes[i, j].GetComponent<Plane_logic>().Parent_Position[0] = i;
-                planes[i, j].GetComponent<Plane_logic>().Parent_Position[1] = j;
                 planes[i, j].transform.SetParent(ground.transform);
                 planes[i, j].transform.position = new Vector3(stepX, planes[i, j].transform.position.y, stepZ);
+                planes[i, j].GetComponent<Plane_logic>().Parent_Position[0] = i;
+                planes[i, j].GetComponent<Plane_logic>().Parent_Position[1] = j;
                 stepZ++;
             }
             stepX++;
