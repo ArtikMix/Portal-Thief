@@ -35,7 +35,7 @@ public class Enemy_controller : MonoBehaviour
         if (seek && Vector3.Distance(transform.position, target.position) <= visionDistance && Vector3.Distance(transform.position, target.position) > lampDistance)
         {
             timeOfSeek += Time.deltaTime;
-            Debug.Log("Time of seek: " + timeOfSeek);
+            //Debug.Log("Time of seek: " + timeOfSeek);
             if (timeOfSeek >= 3.5f)
             {
                 Loose();
@@ -156,6 +156,4 @@ public class Enemy_controller : MonoBehaviour
         agent.SetDestination(target.position);
     }
     #endregion
-
-
 }

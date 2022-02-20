@@ -22,4 +22,9 @@ public class Plane_logic : MonoBehaviour, IPointerClickHandler
             Instantiate(portalVFX, position, rotation);
         }
     }
+
+    private void PlaneNumber()
+    {
+        
+    }
 }
