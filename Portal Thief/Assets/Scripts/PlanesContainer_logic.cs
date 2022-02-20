@@ -8,6 +8,12 @@ public class PlanesContainer_logic : MonoBehaviour
     private GameObject Ground;
     private GameObject[] grounds = new GameObject[10];//
     [SerializeField] private GameObject standartPlane;
+    private Dictionary<string, GameObject[,]> planes_container = new Dictionary<string, GameObject[,]>();
+
+    public GameObject[,] Get_Planes_Container_Dictionary(string name)
+    {
+        return planes_container[name];
+    }
 
     private void Start()
     {
@@ -39,28 +45,14 @@ public class PlanesContainer_logic : MonoBehaviour
             {
                 //Debug.Log("j = " + j);
                 planes[i, j] = Instantiate(standartPlane, pos, Quaternion.identity);
+                planes[i, j].GetComponent<Plane_logic>().Parent_Position[0] = i;
+                planes[i, j].GetComponent<Plane_logic>().Parent_Position[1] = j;
                 planes[i, j].transform.SetParent(ground.transform);
                 planes[i, j].transform.position = new Vector3(stepX, planes[i, j].transform.position.y, stepZ);
                 stepZ++;
             }
             stepX++;
         }
+        planes_container.Add(ground.name, planes);
     }
-
-    /*public int[] FindPlane(string plane_name, string parent_name)
-    {
-        GameObject parent;
-        foreach(Transform plane_parent in Ground.transform)
-        {
-            if (plane_parent.name == parent_name)
-            {
-                parent = plane_parent.gameObject;
-                break;
-            }
-        }
-        foreach(Transform plane in parent.transform)
-        {
-
-        }
-    }*/
 }
