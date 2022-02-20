@@ -8,11 +8,11 @@ public class Camera_controller : MonoBehaviour
     private Transform player;
     private Vector3 mouse_pos;
 
-    private float zoomSpeed = 4f;
-    private float minZoom = 5f;
-    private float maxZoom = 15f;
-    private float currentZoom = 10f;
-    private Vector3 offset = new Vector3(0, 20, -14.2f);
+    //private float zoomSpeed = 4f;
+    //private float minZoom = 5f;
+    //private float maxZoom = 15f;
+    //private float currentZoom = 10f;
+    //private Vector3 offset = new Vector3(0, 20, -14.2f);
 
     private void Start()
     {
